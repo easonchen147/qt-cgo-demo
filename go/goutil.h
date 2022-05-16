@@ -19,10 +19,11 @@ typedef struct { const char *p; ptrdiff_t n; } _GoString_;
 /* Start of preamble from import "C" comments.  */
 
 
-#line 3 "util.go"
+#line 2 "util.go"
 
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 
 #line 1 "cgo-generated-wrapper"
 
@@ -31,7 +32,7 @@ typedef struct { const char *p; ptrdiff_t n; } _GoString_;
 
 
 /* Start of boilerplate cgo prologue.  */
-#line 1 "cgo-gcc-export-gui-prolog"
+#line 1 "cgo-gcc-export-header-prolog"
 
 #ifndef GO_CGO_PROLOGUE_H
 #define GO_CGO_PROLOGUE_H
@@ -75,7 +76,7 @@ extern "C" {
 #endif
 
 extern __declspec(dllexport) int Add(int a, int b);
-extern __declspec(dllexport) char* Concat(char* a, char* b);
+extern __declspec(dllexport) GoInt Concat(char* a, char* b, char* out);
 
 #ifdef __cplusplus
 }

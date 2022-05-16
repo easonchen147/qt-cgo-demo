@@ -20,13 +20,25 @@ using namespace std;
 // cgo function typedef
 typedef GoInt (*funcPtrAdd)(GoInt, GoInt);
 
-typedef char *(*funcPtrConcat)(GoString, GoString);
+typedef char *(*funcPtrConcat)(const char *a, const char *b, const char *out);
 // end
 
 QString GBKToUTF8(QString s) {
     QTextCodec *codec = QTextCodec::codecForName("UTF-8");
     QTextCodec::setCodecForLocale(codec);
     return codec->toUnicode(s.toUtf8());
+}
+
+/**
+	 * 构造GoString结构体对象
+	 * @param p
+	 * @param n
+	 * @return
+	 */
+GoString buildGoString(const char *p, size_t n) {
+    //typedef struct { const char *p; ptrdiff_t n; } _GoString_;
+    //typedef _GoString_ GoString;
+    return {p, static_cast<ptrdiff_t>(n)};
 }
 
 //定义界面类的键和函数
@@ -134,22 +146,22 @@ void Dialog::stClickedBtbAdd() {
 void Dialog::stClickedBtnConcat() {
     QString a = m_Impl->concat_a->text();
     std::string stra = a.toStdString();
-    const char *cha = stra.c_str();
-    qDebug()<< "a:" << cha;
-
-    GoString go_a_str{cha, (ptrdiff_t) strlen(cha)};
 
     QString b = m_Impl->concat_b->text();
     std::string strb = b.toStdString();
-    const char *chb = strb.c_str();
-    qDebug()<< "b:" << chb;
 
-    GoString go_b_str{chb, (ptrdiff_t) strlen(chb)};
+    // 这种形式声明的不需要释放内存空间，存在栈上的
+    // char ch[100]={0};
 
-    char *ch = m_Impl->pFunc_Concat(go_a_str, go_b_str);
+    char * ch = new char[100];
+    memset(ch, 0, 100);
+    m_Impl->pFunc_Concat(stra.c_str(), strb.c_str(), ch);
     QString result = QString::fromUtf8(ch);
 
     QMessageBox::about(NULL, "结果", result);
+
+    // cgo返回后需要手动释放内存空间
+    delete []ch;
 }
 
 Dialog::Dialog(QWidget *parent) :
@@ -159,4 +171,5 @@ Dialog::Dialog(QWidget *parent) :
 }
 
 Dialog::~Dialog() = default;
+
 

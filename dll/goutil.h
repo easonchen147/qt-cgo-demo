@@ -19,10 +19,11 @@ typedef struct { const char *p; ptrdiff_t n; } _GoString_;
 /* Start of preamble from import "C" comments.  */
 
 
-#line 3 "util.go"
+#line 2 "util.go"
 
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 
 #line 1 "cgo-generated-wrapper"
 
@@ -31,7 +32,7 @@ typedef struct { const char *p; ptrdiff_t n; } _GoString_;
 
 
 /* Start of boilerplate cgo prologue.  */
-#line 1 "cgo-gcc-export-gui-prolog"
+#line 1 "cgo-gcc-export-header-prolog"
 
 #ifndef GO_CGO_PROLOGUE_H
 #define GO_CGO_PROLOGUE_H
@@ -45,12 +46,12 @@ typedef unsigned int GoUint32;
 typedef long long GoInt64;
 typedef unsigned long long GoUint64;
 typedef GoInt64 GoInt;
-typedef double GoFloat64;
 typedef GoUint64 GoUint;
-typedef float GoFloat32;
-
-//这三行需要手动注释
+// 需要注释这行
 //typedef __SIZE_TYPE__ GoUintptr;
+typedef float GoFloat32;
+typedef double GoFloat64;
+// 需要注释这两行
 //typedef float _Complex GoComplex64;
 //typedef double _Complex GoComplex128;
 
@@ -77,7 +78,7 @@ extern "C" {
 #endif
 
 extern __declspec(dllexport) int Add(int a, int b);
-extern __declspec(dllexport) char* Concat(char* a, char* b);
+extern __declspec(dllexport) GoInt Concat(const char* a, const char* b, const char* out); // 需要改成 const char *
 
 #ifdef __cplusplus
 }
