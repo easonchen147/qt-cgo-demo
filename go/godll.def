@@ -1,3 +1,7 @@
 EXPORTS
     Add
     Concat
+    ToNewGBKCStr
+    HttpGet
+    SetPerson
+    JsonToPerson
