@@ -1,5 +1,6 @@
 cmake-build-debug/
 .idea/
+go/go.sum
 go/*.dll
 go/*.a
 go/*.h
